@@ -13,6 +13,8 @@ function App() {
   const [weatherData, setWeatherData] = useState({});
   const toast = useToast();
 
+  const BACKEND_URL = 'https://weather-backend-3j1q.onrender.com';
+
   const handleChange = (e) => {
     setLocation(e.target.value);
   };
@@ -21,8 +23,10 @@ function App() {
   useEffect(() => {
     const fetchWeatherData = async () => {
       try {
-        const endpoint = location ? `/w/${location}` : '/w/delhi';
-        const response = await axios.get(`${endpoint}?unit=${unit}`);
+        const endpoint = location ? `w/${location}` : 'w/delhi';
+        const response = await axios.get(
+          `${BACKEND_URL}/${endpoint}?unit=${unit}`
+        );
         setWeatherData(response.data.data);
       } catch (error) {
         console.error('Error fetching weather data:', error);
@@ -37,7 +41,9 @@ function App() {
     e.preventDefault();
     if (!location) return;
     try {
-      const response = await axios.get(`/w/${location}?unit=${unit}`);
+      const response = await axios.get(
+        `${BACKEND_URL}/w/${location}?unit=${unit}`
+      );
       setWeatherData(response.data.data);
       response.data.success &&
         toast({
@@ -66,7 +72,7 @@ function App() {
         navigator.geolocation.getCurrentPosition(async (position) => {
           const { latitude, longitude } = position.coords;
           const response = await axios.get(
-            `/weather/coord?lat=${latitude}&lon=${longitude}&unit=${unit}`
+            `${BACKEND_URL}/weather/coord?lat=${latitude}&lon=${longitude}&unit=${unit}`
           );
           setWeatherData(response.data.data);
           response.data.success &&

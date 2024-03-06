@@ -17,7 +17,13 @@ app.use((err, req, res, next) => {
 
 // Default route to test server
 app.get('/', (req, res) => {
-  res.send('Welcome to the weather app!');
+  res.send(`
+  Welcome to the weather app!
+  Write a location in the URL to get the weather data. For example: /w/london?unit=metric
+  OR
+  Use the /weather/coord endpoint to get weather data by coordinates.
+  For example: /weather/coord?lat=35&lon=139?unit=metric
+  `);
 });
 
 // Function to fetch weather data by city name
